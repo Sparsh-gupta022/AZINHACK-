@@ -29,6 +29,18 @@ const userSchema = new Schema(
             enum: ['user', 'admin'],
             default: 'user',
             trim: true
+        },
+        isVerified: {
+            type: Boolean,
+            default: false
+        },
+        otp: {
+            type: String,
+            default: null
+        },
+        otpExpiry: {
+            type: Date,
+            default: null
         }
     },
     {
@@ -49,7 +61,7 @@ userSchema.methods.isPasswordCorrect = async function (password) {
     return await bcrypt.compare(password, this.password);
 };
 
-// Instance method to generate single JWT Token
+// Instance method to generate JWT Token
 userSchema.methods.generateToken = function () {
     return jwt.sign(
         {
